@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const SliderWrap = styled(motion.div)`
   position: relative;
   top: -200px;
+  height: 300px;
 `;
 const Row = styled(motion.div)`
   display: grid;
@@ -41,7 +42,7 @@ const Info = styled(motion.div)`
   width: 100%;
   position: absolute;
   background-color: ${(props) => props.theme.black.lighter};
-  background: black;
+  background: rgba(0, 0, 0, 0.3);
   h4 {
     text-align: center;
     font-size: 18px;
@@ -70,14 +71,13 @@ const offset = 6;
 
 const boxVar = {
   initial: { scale: 1 },
-  hover: { scale: 1.4, transition: { y: -10, delay: 0.3 } },
+  hover: { scale: 1.4, zIndex: 1000, transition: { y: -10, delay: 0.3 } },
 };
 const Btn = styled.button`
   position: absolute;
   width: 30px;
   height: 200px;
   background: rgba(0, 0, 0, 0.4);
-
   border: none;
   svg {
     fill: #fff;
@@ -90,6 +90,45 @@ const Btn = styled.button`
   }
   &.right {
     right: 0;
+  }
+`;
+const Title = styled(motion.h3)`
+  font-size: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  &:hover {
+    span {
+      transition: 0.3s;
+      margin-left: 14px;
+      font-size: 18px;
+      display: flex;
+      position: relative;
+      left: -90px;
+    }
+  }
+  span {
+    width: auto;
+    display: none;
+    align-items: center;
+    padding-right: 100px;
+    &::before {
+      content: "모두 보기";
+      font-size: 20px;
+      margin-right: 14px;
+      color: #60bbdf;
+      opacity: 0;
+    }
+    &:hover {
+      display: flex;
+      justify-content: space-between;
+      left: 0;
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+  svg {
+    fill: skyblue;
   }
 `;
 const Slider = ({ data }: { data: IgetMovies }) => {
@@ -126,6 +165,18 @@ const Slider = ({ data }: { data: IgetMovies }) => {
   return (
     <>
       <SliderWrap>
+        <Title>
+          타이틀
+          <motion.span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 320 512"
+            >
+              <path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+            </svg>
+          </motion.span>
+        </Title>
         <AnimatePresence
           initial={false}
           custom={back}
