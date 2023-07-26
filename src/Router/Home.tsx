@@ -1,7 +1,7 @@
 // import { Outlet } from "react-router-dom";
 import { styled } from "styled-components";
 import { useQuery } from "react-query";
-import { IgetMovies, getMovies } from "../Api";
+import { IgetMovies, getMovies, popularMovies } from "../Api";
 import { makeImagePath } from "../util";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useMatch, useNavigate } from "react-router-dom";
@@ -95,16 +95,22 @@ const Btn = styled.button`
 `;
 const Home = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data, isLoading } = useQuery<IgetMovies>(
+  const { data: nowplaying, isLoading } = useQuery<IgetMovies>(
     ["movies", "nowPlaying"],
     getMovies
+  );
+  const { data: popular } = useQuery<IgetMovies>(
+    ["movies", "popular"],
+    popularMovies
   );
   const navigate = useNavigate();
   const OverlayClick = () => navigate("");
   const Match = useMatch("/movie/:movieId");
   const clickedMovie =
     Match?.params.movieId &&
-    data?.results.find((movie) => String(movie.id) === Match.params.movieId);
+    nowplaying?.results.find(
+      (movie) => String(movie.id) === Match.params.movieId
+    );
   console.log(clickedMovie);
   const Id = Match?.params.movieId;
   const { scrollY } = useScroll();
@@ -116,15 +122,17 @@ const Home = () => {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner bgphoto={makeImagePath(data?.results[0].backdrop_path || "")}>
+          <Banner
+            bgphoto={makeImagePath(nowplaying?.results[0].backdrop_path || "")}
+          >
             <Title
               initial={{ y: -100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1 }}
             >
-              {data?.results[0].title}
+              {nowplaying?.results[0].title}
             </Title>
-            <Overview>{data?.results[0].overview}</Overview>
+            <Overview>{nowplaying?.results[0].overview}</Overview>
             <BtnWrap>
               <Btn>
                 <svg
@@ -166,8 +174,8 @@ const Home = () => {
               </Btn>
             </BtnWrap>
           </Banner>
-          <Slider data={data!} />
-          <Slider data={data!} />
+          <Slider data={nowplaying!} />
+          <Slider data={popular!} />
           <AnimatePresence>
             {Id && (
               <>

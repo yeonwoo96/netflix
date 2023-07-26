@@ -26,3 +26,19 @@ export function getMovies() {
     `${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=ko`
   ).then((response) => response.json());
 }
+
+export function popularMovies() {
+  return fetch(
+    `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=ko`
+  ).then((response) => response.json());
+}
+export function topratedMovies() {
+  return fetch(
+    `${BASE_PATH}/movie/top_rated?api_key=${API_KEY}&language=ko`
+  ).then((response) => response.json());
+}
+export function upcomingMovies() {
+  return fetch(
+    `${BASE_PATH}/movie/upcoming?api_key=${API_KEY}&language=ko`
+  ).then((response) => response.json());
+}
