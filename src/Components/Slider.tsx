@@ -131,11 +131,10 @@ const Title = styled(motion.h3)`
     fill: skyblue;
   }
 `;
-const Slider = ({ data }: { data: IgetMovies }) => {
-  console.log(data);
+const Slider = ({ data, category }: { data: IgetMovies; category: string }) => {
   const navigate = useNavigate();
   const onBoxClicked = (movieId: number) => {
-    navigate(`/movie/${movieId}`);
+    navigate(`/movie/${movieId}_${category}`);
   };
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
@@ -199,7 +198,7 @@ const Slider = ({ data }: { data: IgetMovies }) => {
               .map((movie) => (
                 <Box
                   variants={boxVar}
-                  layoutId={`${movie.id}`}
+                  layoutId={`${movie.id}_${category}`}
                   onClick={() => onBoxClicked(movie.id)}
                   whileHover="hover"
                   initial="initial"
