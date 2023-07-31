@@ -136,7 +136,7 @@ const Slider = ({
 }) => {
   const navigate = useNavigate();
   const onBoxClicked = (movieId: number) => {
-    navigate(`/movie/${movieId}_${category}`);
+    navigate(`movie/${movieId}_${category}`);
   };
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);

@@ -17,6 +17,7 @@ const Nav = styled(motion.nav)`
   font-size: 12px;
   box-sizing: border-box;
   padding: 20px 60px;
+  z-index: 999;
   a {
     color: ${(props) => props.theme.white.lighter};
   }
@@ -90,11 +91,12 @@ const Header = () => {
   const [SearchOpen, setSearchOpen] = useState(false);
   const HomeMatch = useMatch("/");
   const HomeMatch2 = useMatch("/movie/:id");
-  const SeriesMatch = useMatch("series");
-  const MovieMatch = useMatch("Movie");
-  const HotMatch = useMatch("Hot");
-  const MypickMatch = useMatch("Mypick");
-  const LanguageMatch = useMatch("Language");
+  const topratedMatch = useMatch("toprated");
+  const topratedMatch2 = useMatch("toprated/movie/:id");
+  const popularMatch = useMatch("popular");
+  const popularMatch2 = useMatch("popular/movie/:id");
+  const soonMatch = useMatch("soon");
+  const soonMatch2 = useMatch("soon/movie/:id");
   const inputAnimation = useAnimation();
   const navAnimation = useAnimation();
   const { scrollY } = useScroll();
@@ -143,32 +145,34 @@ const Header = () => {
         <Items>
           <Item>
             <Link to={"/"}>
-              홈 {HomeMatch || HomeMatch2 ? <Circle layoutId="circle" /> : null}
+              홈{" "}
+              {HomeMatch || HomeMatch2 ? (
+                <Circle layoutId="circlePoint" />
+              ) : null}
             </Link>
           </Item>
           <Item>
-            <Link to={"/series"}>
-              시리즈 {SeriesMatch && <Circle layoutId="circle" />}
+            <Link to={"/toprated"}>
+              평점이 높은 콘텐츠
+              {topratedMatch || topratedMatch2 ? (
+                <Circle layoutId="circlePoint" />
+              ) : null}
             </Link>
           </Item>
           <Item>
-            <Link to={"/movie"}>
-              영화{MovieMatch && <Circle layoutId="circle" />}
+            <Link to={"/popular"}>
+              NEW! 요즘 대세 콘텐츠
+              {popularMatch || popularMatch2 ? (
+                <Circle layoutId="circlePoint" />
+              ) : null}
             </Link>
           </Item>
           <Item>
-            <Link to={"/hot"}>
-              NEW!요즘 대세 콘텐츠{HotMatch && <Circle layoutId="circle" />}
-            </Link>
-          </Item>
-          <Item>
-            <Link to={"/mypick"}>
-              내가 찜한 콘텐츠{MypickMatch && <Circle layoutId="circle" />}
-            </Link>
-          </Item>
-          <Item>
-            <Link to={"/language"}>
-              언어별로 찾아보기{LanguageMatch && <Circle layoutId="circle" />}
+            <Link to={"/soon"}>
+              Soon! 방영 예정
+              {soonMatch || soonMatch2 ? (
+                <Circle layoutId="circlePoint" />
+              ) : null}
             </Link>
           </Item>
         </Items>
