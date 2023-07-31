@@ -17,6 +17,9 @@ const Row = styled(motion.div)`
   position: absolute;
   width: 100%;
 `;
+const ContentsCategory = styled.h3`
+  margin-left: 60px;
+`;
 const Box = styled(motion.div)`
   height: 200px;
   display: flex;
@@ -108,7 +111,7 @@ const Title = styled(motion.h3)`
     &::before {
       content: "모두 보기";
       font-size: 20px;
-      margin-right: 14px;
+      margin-left: 14px;
       color: #60bbdf;
       opacity: 0;
     }
@@ -167,7 +170,7 @@ const Slider = ({
     <>
       <SliderWrap>
         <Title>
-          {title}
+          <ContentsCategory>{title}</ContentsCategory>
           <motion.span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

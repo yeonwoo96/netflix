@@ -6,13 +6,12 @@ import Footer from "./Components/Footer";
 import TopRated from "./Router/toprated";
 import Popular from "./Router/popular";
 import Soon from "./Router/Soon";
-import ScrollToTop from "./ScrollToTop";
+
 const App = () => {
   const client = new QueryClient();
   return (
     <QueryClientProvider client={client}>
       <HashRouter>
-        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/" element={<Home />}>

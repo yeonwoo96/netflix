@@ -47,17 +47,7 @@ const Item = styled(motion.li)`
   display: flex;
   align-items: center;
 `;
-const Circle = styled(motion.span)`
-  position: absolute;
-  bottom: -15px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.red};
-`;
+
 const logoVariants = {
   normal: {
     fillOpacity: 1,
@@ -144,35 +134,55 @@ const Header = () => {
         </Logo>
         <Items>
           <Item>
-            <Link to={"/"}>
+            <Link
+              to={"/"}
+              style={{
+                color:
+                  HomeMatch || HomeMatch2
+                    ? "rgba(255,255,255,1)"
+                    : "rgba(255,255,255,0.8)",
+              }}
+            >
               홈{" "}
-              {HomeMatch || HomeMatch2 ? (
-                <Circle layoutId="circlePoint" />
-              ) : null}
             </Link>
           </Item>
           <Item>
-            <Link to={"/toprated"}>
+            <Link
+              to={"/toprated"}
+              style={{
+                color:
+                  topratedMatch || topratedMatch2
+                    ? "rgba(255,255,255,1)"
+                    : "rgba(255,255,255,0.8)",
+              }}
+            >
               평점이 높은 콘텐츠
-              {topratedMatch || topratedMatch2 ? (
-                <Circle layoutId="circlePoint" />
-              ) : null}
             </Link>
           </Item>
           <Item>
-            <Link to={"/popular"}>
+            <Link
+              to={"/popular"}
+              style={{
+                color:
+                  popularMatch || popularMatch2
+                    ? "rgba(255,255,255,1)"
+                    : "rgba(255,255,255,0.8)",
+              }}
+            >
               NEW! 요즘 대세 콘텐츠
-              {popularMatch || popularMatch2 ? (
-                <Circle layoutId="circlePoint" />
-              ) : null}
             </Link>
           </Item>
           <Item>
-            <Link to={"/soon"}>
+            <Link
+              to={"/soon"}
+              style={{
+                color:
+                  soonMatch || soonMatch2
+                    ? "rgba(255,255,255,1)"
+                    : "rgba(255,255,255,0.8)",
+              }}
+            >
               Soon! 방영 예정
-              {soonMatch || soonMatch2 ? (
-                <Circle layoutId="circlePoint" />
-              ) : null}
             </Link>
           </Item>
         </Items>
