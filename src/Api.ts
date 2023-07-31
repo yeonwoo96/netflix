@@ -21,6 +21,26 @@ export interface IgetMovies {
     vote_count: number;
   }[];
 }
+export interface DetailMovies {
+  adult: boolean;
+  backdrop_path: string;
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+export function Detail(Id: string) {
+  return fetch(`${BASE_PATH}/movie/${Id}?api_key=${API_KEY}&language=ko`).then(
+    (response) => response.json()
+  );
+}
 export function getMovies() {
   return fetch(
     `${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=ko`

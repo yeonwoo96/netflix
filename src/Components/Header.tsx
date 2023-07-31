@@ -102,7 +102,6 @@ const Header = () => {
     open: { scaleX: 1 },
     close: { scaleX: 0 },
   };
-  console.log(HomeMatch2);
   const toggleSearch = () => {
     if (SearchOpen) {
       void inputAnimation.start("close");

@@ -20,8 +20,6 @@ const Row = styled(motion.div)`
 const Box = styled(motion.div)`
   height: 200px;
   display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   &:first-child {
     transform-origin: center left;
@@ -37,23 +35,19 @@ const Box = styled(motion.div)`
 const Info = styled(motion.div)`
   padding: 10px;
   box-sizing: border-box;
-  bottom: 0;
-  opacity: 0;
   width: 100%;
   position: absolute;
+  bottom: 0;
   background-color: ${(props) => props.theme.black.lighter};
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.5);
   h4 {
     text-align: center;
     font-size: 18px;
   }
 `;
 const InfoVar = {
-  hover: {
-    opacity: 1,
-  },
   initial: {
-    opacity: 0,
+    opacity: 1,
   },
 };
 const rowVarinants = {
@@ -131,7 +125,15 @@ const Title = styled(motion.h3)`
     fill: skyblue;
   }
 `;
-const Slider = ({ data, category }: { data: IgetMovies; category: string }) => {
+const Slider = ({
+  data,
+  category,
+  title,
+}: {
+  data: IgetMovies;
+  category: string;
+  title: string;
+}) => {
   const navigate = useNavigate();
   const onBoxClicked = (movieId: number) => {
     navigate(`/movie/${movieId}_${category}`);
@@ -165,7 +167,7 @@ const Slider = ({ data, category }: { data: IgetMovies; category: string }) => {
     <>
       <SliderWrap>
         <Title>
-          타이틀
+          {title}
           <motion.span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -204,7 +206,7 @@ const Slider = ({ data, category }: { data: IgetMovies; category: string }) => {
                   initial="initial"
                   key={movie.id}
                 >
-                  <img src={makeImagePath(movie.backdrop_path, "w500")} />
+                  <img src={makeImagePath(movie.poster_path, "w500")} />
                   <Info variants={InfoVar}>
                     <h4>{movie.title}</h4>
                   </Info>

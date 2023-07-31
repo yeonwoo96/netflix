@@ -1,7 +1,14 @@
 // import { Outlet } from "react-router-dom";
 import { styled } from "styled-components";
 import { useQuery } from "react-query";
-import { IgetMovies, getMovies, popularMovies } from "../Api";
+import {
+  DetailMovies,
+  IgetMovies,
+  getMovies,
+  popularMovies,
+  topratedMovies,
+  upcomingMovies,
+} from "../Api";
 import { makeImagePath } from "../util";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useMatch, useNavigate } from "react-router-dom";
@@ -9,7 +16,6 @@ import Slider from "../Components/Slider";
 
 const Wrapper = styled.div`
   background: black;
-  height: 200vh;
   overflow-x: hidden;
 `;
 
@@ -49,8 +55,7 @@ const Overlay = styled(motion.div)`
 `;
 const MovieDetail = styled(motion.div)`
   position: absolute;
-  width: 600px;
-  height: 600px;
+  width: 500px;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -60,17 +65,26 @@ const MovieDetail = styled(motion.div)`
 `;
 const DetailCover = styled.div`
   width: 100%;
-  height: 250px;
+  height: 300px;
   background-size: cover;
 `;
-const DetailTitle = styled.h3`
-  text-align: center;
-  font-size: 28px;
+const DetailTextBox = styled.div`
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
 `;
+const DetailTitle = styled.h3`
+  font-size: 28px;
+  position: relative;
+  top: -50px;
+`;
+const DetailAverage = styled.p`
+  color: #46d369;
+`;
+const DetailDate = styled.p``;
 const DetailOverview = styled.p`
   font-size: 14px;
   margin-top: 20px;
-  text-align: center;
 `;
 const BtnWrap = styled.div`
   display: flex;
@@ -93,32 +107,48 @@ const Btn = styled.button`
     color: #fff;
   }
 `;
+
 const Home = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data: nowplaying, isLoading } = useQuery<IgetMovies>(
+
+  const { data: nowplaying, isLoading: Loading1 } = useQuery<IgetMovies>(
     ["movies", "nowPlaying"],
     getMovies
   );
-  const { data: popular } = useQuery<IgetMovies>(
+  const { data: popular, isLoading: Loading2 } = useQuery<IgetMovies>(
     ["movies", "popular"],
     popularMovies
   );
+  const { data: toprated, isLoading: Loading3 } = useQuery<IgetMovies>(
+    ["movies", "toprated"],
+    topratedMovies
+  );
+  const { data: upcoming, isLoading: Loading4 } = useQuery<IgetMovies>(
+    ["movies", "upcoming"],
+    upcomingMovies
+  );
+
   const navigate = useNavigate();
   const OverlayClick = () => navigate("");
   const Match = useMatch("/movie/:movieId");
   const param = Match?.params.movieId;
   const Id = Match?.params.movieId?.split("_")[0];
-  const clickedMovie =
+  const clickedMovieArr =
     Match?.params.movieId &&
-    nowplaying?.results.find((movie) => String(movie.id) === Id);
-  console.log(Match);
-  console.log(Id);
-  const { scrollY } = useScroll();
-  //
+    [
+      nowplaying?.results.find((movie) => String(movie.id) === Id),
+      toprated?.results.find((movie) => String(movie.id) === Id),
+      popular?.results.find((movie) => String(movie.id) === Id),
+      upcoming?.results.find((movie) => String(movie.id) === Id),
+    ].filter((prev) => prev != undefined);
 
+  const clickedMovie: string | DetailMovies | undefined = clickedMovieArr?.[0];
+  console.log(clickedMovie);
+  const { scrollY } = useScroll();
+  typeof clickedMovie;
   return (
     <Wrapper>
-      {isLoading ? (
+      {Loading1 && Loading2 && Loading3 && Loading4 ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
@@ -174,8 +204,22 @@ const Home = () => {
               </Btn>
             </BtnWrap>
           </Banner>
-          <Slider data={nowplaying!} category="nowplaying" />
-          <Slider data={popular!} category="popular" />
+          <Slider data={popular!} category="popular" title="지금 뜨는 콘텐츠" />
+          <Slider
+            data={toprated!}
+            category="toprated"
+            title="높은 평점을 받은 콘텐츠"
+          />
+          <Slider
+            data={nowplaying!}
+            category="nowplaying"
+            title="넷플릭스 인기 콘텐츠"
+          />
+          <Slider
+            data={upcoming!}
+            category="upcoming"
+            title="방영 예정인 콘텐츠"
+          />
           <AnimatePresence>
             {Id && (
               <>
@@ -185,7 +229,7 @@ const Home = () => {
                   key={Id}
                   style={{ top: scrollY.get() + 100 }}
                 >
-                  {clickedMovie && (
+                  {typeof clickedMovie == "object" && (
                     <>
                       <DetailCover
                         style={{
@@ -195,8 +239,23 @@ const Home = () => {
                           )})`,
                         }}
                       />
-                      <DetailTitle>{clickedMovie.title}</DetailTitle>
-                      <DetailOverview>{clickedMovie.overview}</DetailOverview>
+                      <DetailTextBox>
+                        <div className="left">
+                          {" "}
+                          <DetailTitle>{clickedMovie.title}</DetailTitle>
+                          <DetailOverview>
+                            {clickedMovie.overview}
+                          </DetailOverview>
+                        </div>
+                        <div className="right">
+                          <DetailAverage>
+                            평점 {clickedMovie.vote_average}
+                          </DetailAverage>
+                          <DetailDate>
+                            개봉일 {clickedMovie.release_date}
+                          </DetailDate>
+                        </div>
+                      </DetailTextBox>
                     </>
                   )}
                 </MovieDetail>

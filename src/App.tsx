@@ -1,13 +1,14 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, HashRouter } from "react-router-dom";
 import Header from "./Components/Header";
 import Home from "./Router/Home";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Footer from "./Components/Footer";
 
 const App = () => {
   const client = new QueryClient();
   return (
     <QueryClientProvider client={client}>
-      <BrowserRouter>
+      <HashRouter>
         <Header />
         <Routes>
           <Route path="/" element={<Home />}>
@@ -19,7 +20,8 @@ const App = () => {
           <Route path="/mypick" element={<Home />} />
           <Route path="/language" element={<Home />} />
         </Routes>
-      </BrowserRouter>
+        <Footer />
+      </HashRouter>
     </QueryClientProvider>
   );
 };
